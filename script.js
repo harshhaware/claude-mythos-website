@@ -23,7 +23,7 @@ window.addEventListener('scroll', () => {
     let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     
     if (scrollTop > 100) {
-        navbar.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.3)';
+        navbar.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.4)';
     } else {
         navbar.style.boxShadow = 'none';
     }
@@ -46,87 +46,37 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, observerOptions);
 
-// Observe feature cards and other elements
-document.querySelectorAll('.why-card, .faq-item, .pricing-card, .feature-showcase-item').forEach(el => {
+// Observe elements
+document.querySelectorAll('.exclusive-card, .capability-card, .access-card, .faq-item, .step').forEach(el => {
     el.style.opacity = '0';
     el.style.transform = 'translateY(20px)';
     el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
     observer.observe(el);
 });
 
-// Counter animation for stats
-function animateCounter(element, target, duration = 2000) {
-    let current = 0;
-    const increment = target / (duration / 16);
-    
-    const timer = setInterval(() => {
-        current += increment;
-        if (current >= target) {
-            current = target;
-            clearInterval(timer);
-        }
-        element.textContent = Math.floor(current).toLocaleString();
-    }, 16);
-}
-
-// Trigger stats animation on scroll
-const statsSection = document.querySelector('.stats-section');
-let statsAnimated = false;
-
-if (statsSection) {
-    const statsObserver = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && !statsAnimated) {
-            statsAnimated = true;
-            document.querySelectorAll('.stat-number[data-target]').forEach(stat => {
-                const target = parseInt(stat.getAttribute('data-target'));
-                animateCounter(stat, target);
-            });
-        }
-    });
-    
-    statsObserver.observe(statsSection);
-}
-
 // Button click handlers
 document.querySelectorAll('.btn').forEach(button => {
     button.addEventListener('click', function(e) {
-        console.log('Button clicked: ', this.textContent);
+        const buttonText = this.textContent.trim();
+        console.log('🔐 Access Request:', buttonText);
         
-        // Add ripple effect
-        const ripple = document.createElement('span');
-        ripple.style.position = 'absolute';
-        ripple.style.borderRadius = '50%';
-        ripple.style.backgroundColor = 'rgba(255, 255, 255, 0.5)';
-        ripple.style.transform = 'scale(0)';
-        ripple.style.animation = 'ripple 0.6s ease-out';
-        ripple.style.pointerEvents = 'none';
+        if (buttonText.includes('Access')) {
+            alert('Redirecting to enterprise access request form...');
+        } else if (buttonText.includes('Demo')) {
+            alert('Scheduling demo with Anthropic team...');
+        } else if (buttonText.includes('Sales')) {
+            alert('Connecting to sales team...');
+        }
     });
 });
 
-// Mobile menu toggle (for future implementation)
-function toggleMobileMenu() {
-    const navLinks = document.querySelector('.nav-links');
-    navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
-}
-
-// Add cursor glow effect on button hover
-document.querySelectorAll('.btn').forEach(btn => {
-    btn.addEventListener('mouseenter', function() {
-        this.style.textShadow = '0 0 10px currentColor';
-    });
-    
-    btn.addEventListener('mouseleave', function() {
-        this.style.textShadow = 'none';
-    });
-});
-
-// Scroll to top on page load
+// Page load animation
 window.addEventListener('load', () => {
     window.scrollTo(0, 0);
     document.body.style.opacity = '1';
 });
 
-// Log on load
-console.log('%c⚡ Claude Mythos', 'font-size: 24px; font-weight: bold; color: #667eea;');
-console.log('%cThe world\'s most powerful AI at just $9/month', 'font-size: 14px; color: #b4bcd0;');
-console.log('%cWebsite loaded successfully!', 'font-size: 12px; color: #48bb78;');
+// Console branding
+console.log('%c🧠 Claude Mythos', 'font-size: 24px; font-weight: bold; color: #ec4899;');
+console.log('%cAnthropics\'s Most Powerful AI | Enterprise Access Only', 'font-size: 14px; color: #cbd5e1;');
+console.log('%c🔒 This is an exclusive product for authorized organizations only', 'font-size: 12px; color: #ec4899; font-weight: bold;');
